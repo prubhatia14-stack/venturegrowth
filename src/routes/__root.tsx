@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Venture Growth Labs" },
+      { name: "description", content: "Approval Flow Fun enhances application submissions with animated feedback and interactive elements." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Venture Growth Labs" },
+      { property: "og:description", content: "Approval Flow Fun enhances application submissions with animated feedback and interactive elements." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Venture Growth Labs" },
+      { name: "twitter:description", content: "Approval Flow Fun enhances application submissions with animated feedback and interactive elements." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/39e8400e-57d0-41ca-95dd-8dcc987663e1/id-preview-a4c66f35--8d53fa30-1de5-4545-9ca0-db9aa085f7f5.lovable.app-1779608445906.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/39e8400e-57d0-41ca-95dd-8dcc987663e1/id-preview-a4c66f35--8d53fa30-1de5-4545-9ca0-db9aa085f7f5.lovable.app-1779608445906.png" },
     ],
     links: [
       {
