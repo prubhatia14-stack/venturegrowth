@@ -6,14 +6,15 @@ import { StickyNote } from "@/components/StickyNote";
 import { RoleCard, type Role } from "@/components/RoleCard";
 import { ApplicationForm } from "@/components/ApplicationForm";
 import { SuccessStamp } from "@/components/SuccessStamp";
+import { MusicToggle } from "@/components/MusicToggle";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Careers — Apply to the Branch" },
-      { name: "description", content: "Open roles for content, video, design and growth. Submit your application — the Regional Manager will review it. Probably." },
-      { property: "og:title", content: "Careers — Apply to the Branch" },
-      { property: "og:description", content: "Open roles for content, video, design and growth." },
+      { title: "Careers — Venture Growth Labs" },
+      { name: "description", content: "Join Venture Growth Labs in Noida. We run our own ventures in sports, fashion and commodities — not client work. Apply for content, video, design and growth roles." },
+      { property: "og:title", content: "Careers — Venture Growth Labs" },
+      { property: "og:description", content: "We don't build for other people — we build our own brands across sports, fashion and commodities. Noida-based." },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
