@@ -1,5 +1,5 @@
 import { useRef, useState, type DragEvent, type FormEvent } from "react";
-import { Upload, FileText, X, Loader2 } from "lucide-react";
+import { Upload, FileVideo, X, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,12 +9,13 @@ import type { Role } from "./RoleCard";
 const schema = z.object({
   full_name: z.string().trim().min(1, "Name required").max(100),
   email: z.string().trim().email("Valid email required").max(255),
+  instagram: z.string().trim().min(1, "Instagram is required").max(255),
   role: z.string().min(1, "Pick a role"),
   why_join: z.string().trim().min(10, "Tell us a bit more (10+ chars)").max(1000),
-  fun_answer: z.string().trim().max(500).optional(),
 });
 
-const ALLOWED = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain"];
+const ALLOWED = ["video/mp4", "video/quicktime", "video/webm", "video/x-matroska", "video/x-m4v", "video/3gpp"];
+const MAX_SIZE = 50 * 1024 * 1024;
 
 export function ApplicationForm({
   roles,
@@ -36,11 +37,11 @@ export function ApplicationForm({
     const f = files?.[0];
     if (!f) return;
     if (!ALLOWED.includes(f.type)) {
-      toast.error("PDF, DOC, DOCX, or TXT only");
+      toast.error("Video only (MP4, MOV, WEBM, MKV)");
       return;
     }
-    if (f.size > 5 * 1024 * 1024) {
-      toast.error("File must be under 5MB");
+    if (f.size > MAX_SIZE) {
+      toast.error("Video must be under 50MB");
       return;
     }
     setFile(f);
@@ -60,9 +61,9 @@ export function ApplicationForm({
     const parsed = schema.safeParse({
       full_name: form.get("full_name"),
       email: form.get("email"),
+      instagram: form.get("instagram"),
       role: selectedRole,
       why_join: form.get("why_join"),
-      fun_answer: form.get("fun_answer") || undefined,
     });
 
     if (!parsed.success) {
@@ -70,23 +71,23 @@ export function ApplicationForm({
       return;
     }
 
+    if (!file) {
+      toast.error("Upload your intro video — it's required");
+      return;
+    }
+
     setSubmitting(true);
     try {
-      let resume_path: string | null = null;
-
-      if (file) {
-        const ext = file.name.split(".").pop() ?? "bin";
-        const path = `${crypto.randomUUID()}.${ext}`;
-        const { error: uploadErr } = await supabase.storage
-          .from("resumes")
-          .upload(path, file, { contentType: file.type, upsert: false });
-        if (uploadErr) throw uploadErr;
-        resume_path = path;
-      }
+      const ext = file.name.split(".").pop() ?? "mp4";
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const { error: uploadErr } = await supabase.storage
+        .from("resumes")
+        .upload(path, file, { contentType: file.type, upsert: false });
+      if (uploadErr) throw uploadErr;
 
       const { error: insertErr } = await supabase
         .from("applications")
-        .insert({ ...parsed.data, resume_path });
+        .insert({ ...parsed.data, resume_path: path });
       if (insertErr) throw insertErr;
 
       onSuccess();
@@ -105,13 +106,22 @@ export function ApplicationForm({
         <span className="font-display text-xs text-muted-foreground tracking-widest">FORM 9B / REV 2</span>
       </div>
 
+      <p className="text-xs text-muted-foreground">All fields are required.</p>
+
       <div className="grid gap-5 md:grid-cols-2">
-        <Field label="Full name" name="full_name" placeholder="Jane Halpert" required />
-        <Field label="Email" name="email" type="email" placeholder="jane@example.com" required />
+        <Field label="Full name *" name="full_name" placeholder="Jane Halpert" required />
+        <Field label="Email *" name="email" type="email" placeholder="jane@example.com" required />
       </div>
 
+      <Field
+        label="Instagram (URL or @handle) *"
+        name="instagram"
+        placeholder="@yourhandle or https://instagram.com/yourhandle"
+        required
+      />
+
       <div>
-        <Label>Applying for</Label>
+        <Label>Applying for *</Label>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
           {roles.map((r) => (
             <label
@@ -138,22 +148,18 @@ export function ApplicationForm({
       </div>
 
       <TextArea
-        label="Why do you want to join?"
+        label="Why do you want to join? *"
         name="why_join"
         rows={4}
         placeholder="No paper pun required, but encouraged."
         required
       />
 
-      <TextArea
-        label="The fun question: pitch us a stapler-in-jello-level office prank (PG)."
-        name="fun_answer"
-        rows={3}
-        placeholder="Be creative. Or don't. We won't judge. Much."
-      />
-
       <div>
-        <Label>Resume (optional, PDF/DOC/TXT, ≤5MB)</Label>
+        <Label>Raw intro video — why you're the best for this *</Label>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Unedited, phone-shot is perfect. MP4 / MOV / WEBM, up to 50MB.
+        </p>
         <div
           onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
@@ -167,13 +173,13 @@ export function ApplicationForm({
           <input
             ref={fileInputRef}
             type="file"
-            accept=".pdf,.doc,.docx,.txt"
+            accept="video/mp4,video/quicktime,video/webm,video/x-matroska,video/x-m4v,video/3gpp"
             className="hidden"
             onChange={(e) => handleFiles(e.target.files)}
           />
           {file ? (
             <div className="flex items-center justify-center gap-3">
-              <FileText className="h-5 w-5 text-foreground/70" />
+              <FileVideo className="h-5 w-5 text-foreground/70" />
               <span className="text-sm font-medium">{file.name}</span>
               <button
                 type="button"
@@ -188,7 +194,7 @@ export function ApplicationForm({
             <div className="flex flex-col items-center gap-2 text-muted-foreground">
               <Upload className={cn("h-6 w-6 transition-transform", dragging && "scale-125 -translate-y-1")} />
               <p className="text-sm">
-                {dragging ? "Drop it like it's a TPS report" : "Drag & drop, or click to upload"}
+                {dragging ? "Drop the video — we're ready" : "Drag & drop your video, or click to upload"}
               </p>
             </div>
           )}
@@ -206,6 +212,14 @@ export function ApplicationForm({
           "Submit Application"
         )}
       </button>
+
+      <p className="text-center text-xs text-muted-foreground">
+        Stuck? Can't get the form to submit? WhatsApp Pranav at{" "}
+        <a href="https://wa.me/918882999359" target="_blank" rel="noopener noreferrer" className="font-medium text-foreground underline underline-offset-2">
+          +91 88829 99359
+        </a>
+        .
+      </p>
     </form>
   );
 }
