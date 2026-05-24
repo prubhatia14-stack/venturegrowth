@@ -21,6 +21,7 @@ export type Database = {
           full_name: string
           fun_answer: string | null
           id: string
+          instagram: string | null
           resume_path: string | null
           role: string
           why_join: string
@@ -31,6 +32,7 @@ export type Database = {
           full_name: string
           fun_answer?: string | null
           id?: string
+          instagram?: string | null
           resume_path?: string | null
           role: string
           why_join: string
@@ -41,6 +43,7 @@ export type Database = {
           full_name?: string
           fun_answer?: string | null
           id?: string
+          instagram?: string | null
           resume_path?: string | null
           role?: string
           why_join?: string
