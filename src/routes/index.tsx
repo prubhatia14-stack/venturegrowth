@@ -95,16 +95,17 @@ function CareersPage() {
   return (
     <div className="min-h-screen">
       <Toaster position="top-center" richColors />
+      <MusicToggle src="/office-theme.mp3" />
 
       {/* Header */}
       <header className="border-b border-foreground/10 bg-paper/60 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2 font-display tracking-widest text-sm">
             <Paperclip className="h-4 w-4" />
-            HUMAN&nbsp;RESOURCES
+            VENTURE&nbsp;GROWTH&nbsp;LABS
           </div>
           <div className="font-display text-xs text-muted-foreground tracking-widest">
-            MEMO / OPEN POSITIONS
+            NOIDA · OPEN POSITIONS
           </div>
         </div>
       </header>
@@ -114,18 +115,28 @@ function CareersPage() {
         <div className="grid items-start gap-10 md:grid-cols-[1.4fr_1fr]">
           <div className="paper-rise">
             <p className="font-display text-xs tracking-[0.3em] text-muted-foreground">
-              NOW HIRING · 4 OPEN ROLES
+              NOW HIRING · NOIDA · 4 OPEN ROLES
             </p>
             <h1 className="font-display mt-4 text-4xl leading-tight text-foreground md:text-6xl">
-              Come work at the
+              Build <span className="highlight-text">our own</span> brands.
               <br />
-              <span className="highlight-text">best branch</span> on the internet.
+              Not someone else's.
             </h1>
-            <p className="mt-6 max-w-xl text-base text-muted-foreground md:text-lg">
-              We make content. Lots of it. For multiple brands, every single day.
-              You'll get great teammates, real ownership, and approximately one (1)
-              questionable office mug.
-            </p>
+            <div className="mt-6 max-w-xl space-y-4 text-base text-muted-foreground md:text-lg">
+              <p className="font-display text-sm tracking-widest text-foreground/80 uppercase">
+                Important — please read:
+              </p>
+              <p>
+                <strong className="text-foreground">Venture Growth Labs is not an agency.</strong>{" "}
+                We don't build products or companies for other people. Everything we make is{" "}
+                <strong className="text-foreground">our own in-house operation</strong> across{" "}
+                <span className="highlight-text">sports, fashion &amp; commodities</span>.
+              </p>
+              <p>
+                You won't be doing client work. You'll be building real brands — ours — from
+                Noida, with the team, every single day. Let's make something cool.
+              </p>
+            </div>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <button
                 onClick={() => scrollToForm(selectedRole)}
@@ -148,14 +159,13 @@ function CareersPage() {
           {/* Sticky notes cluster */}
           <div className="relative h-[360px] md:h-[420px]">
             <StickyNote className="absolute left-0 top-2 w-56" variant="yellow">
-              "Best team I've worked with. The snacks are also fine."
-              <div className="font-body mt-3 text-xs text-foreground/60">— Anonymous</div>
+              In-house only. No client work, ever.
             </StickyNote>
             <StickyNote className="absolute right-0 top-20 w-56" variant="pink">
-              Pitch days every Friday. Bring weird ideas.
+              Sports. Fashion. Commodities. All ours.
             </StickyNote>
             <StickyNote className="absolute left-8 top-48 w-52" variant="blue">
-              Remote-friendly. Async-first. Meetings only when truly required.
+              Based in Noida. On-ground &amp; hands-on.
             </StickyNote>
             <StickyNote className="absolute right-6 top-64 w-56" variant="green">
               Real ownership. No micro-managing. Promise.
@@ -189,7 +199,7 @@ function CareersPage() {
           <p className="font-display text-xs tracking-[0.3em] text-muted-foreground">SECTION 03</p>
           <h2 className="font-display mt-1 text-3xl md:text-4xl">Submit Your Paperwork</h2>
           <p className="mt-3 text-muted-foreground">
-            Fill it out. Drop your resume. We read everything.
+            Fill it out. Drop your intro video. All fields are required.
           </p>
         </div>
 
@@ -203,16 +213,36 @@ function CareersPage() {
             onSuccess={() => setSubmitted(true)}
           />
         )}
+
+        <div className="mt-10 rounded-lg border border-dashed border-foreground/20 bg-paper/60 p-5 text-center text-sm text-muted-foreground">
+          <p className="font-display text-xs tracking-widest text-foreground/70 uppercase">
+            Form not working?
+          </p>
+          <p className="mt-2">
+            If for any reason you can't fill the application form, WhatsApp{" "}
+            <strong className="text-foreground">Pranav</strong> at{" "}
+            <a
+              href="https://wa.me/918882999359"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground underline underline-offset-2"
+            >
+              +91 88829 99359
+            </a>
+            .
+          </p>
+        </div>
       </section>
 
       <footer className="border-t border-foreground/10 bg-paper/60 py-6">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5 font-display tracking-widest">
-            <Coffee className="h-3.5 w-3.5" /> POWERED BY COFFEE
+            <Coffee className="h-3.5 w-3.5" /> POWERED BY COFFEE · NOIDA
           </span>
-          <span className="font-display tracking-widest">© THE BRANCH</span>
+          <span className="font-display tracking-widest">© VENTURE GROWTH LABS</span>
         </div>
       </footer>
     </div>
   );
 }
+
