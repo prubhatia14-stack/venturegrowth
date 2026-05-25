@@ -1,9 +1,12 @@
-import { useRef, useState, type DragEvent, type FormEvent } from "react";
+import { useEffect, useRef, useState, type DragEvent, type FormEvent } from "react";
 import { Upload, FileVideo, X, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { getTurnstileSiteKey, submitApplication } from "@/lib/applications.functions";
 import type { Role } from "./RoleCard";
 
 const schema = z.object({
@@ -11,11 +14,20 @@ const schema = z.object({
   email: z.string().trim().email("Valid email required").max(255),
   instagram: z.string().trim().min(1, "Instagram is required").max(255),
   role: z.string().min(1, "Pick a role"),
-  why_join: z.string().trim().min(10, "Tell us a bit more (10+ chars)").max(1000),
+  why_join: z.string().trim().min(10, "Tell us a bit more (10+ chars)").max(2000),
 });
 
 const ALLOWED = ["video/mp4", "video/quicktime", "video/webm", "video/x-matroska", "video/x-m4v", "video/3gpp"];
 const MAX_SIZE = 50 * 1024 * 1024;
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (el: HTMLElement, opts: { sitekey: string; callback: (token: string) => void; "error-callback"?: () => void; "expired-callback"?: () => void; theme?: string }) => string;
+      reset: (id?: string) => void;
+    };
+  }
+}
 
 export function ApplicationForm({
   roles,
@@ -31,7 +43,40 @@ export function ApplicationForm({
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [tsToken, setTsToken] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const tsContainerRef = useRef<HTMLDivElement>(null);
+  const tsWidgetId = useRef<string | null>(null);
+
+  const siteKeyFn = useServerFn(getTurnstileSiteKey);
+  const submitFn = useServerFn(submitApplication);
+  const siteKeyQ = useQuery({ queryKey: ["turnstile-site-key"], queryFn: () => siteKeyFn() });
+
+  // Load Turnstile script + render widget
+  useEffect(() => {
+    if (!siteKeyQ.data?.siteKey) return;
+    const SCRIPT_ID = "cf-turnstile-script";
+    function render() {
+      if (!window.turnstile || !tsContainerRef.current || tsWidgetId.current) return;
+      tsWidgetId.current = window.turnstile.render(tsContainerRef.current, {
+        sitekey: siteKeyQ.data!.siteKey,
+        callback: (token) => setTsToken(token),
+        "error-callback": () => setTsToken(""),
+        "expired-callback": () => setTsToken(""),
+      });
+    }
+    if (document.getElementById(SCRIPT_ID)) {
+      render();
+    } else {
+      const s = document.createElement("script");
+      s.id = SCRIPT_ID;
+      s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+      s.async = true;
+      s.defer = true;
+      s.onload = render;
+      document.head.appendChild(s);
+    }
+  }, [siteKeyQ.data?.siteKey]);
 
   function handleFiles(files: FileList | null) {
     const f = files?.[0];
@@ -58,6 +103,13 @@ export function ApplicationForm({
     if (submitting) return;
 
     const form = new FormData(e.currentTarget);
+    const hp = String(form.get("website") ?? "");
+    if (hp) {
+      // Silently swallow bot
+      onSuccess();
+      return;
+    }
+
     const parsed = schema.safeParse({
       full_name: form.get("full_name"),
       email: form.get("email"),
@@ -70,9 +122,12 @@ export function ApplicationForm({
       toast.error(parsed.error.issues[0]?.message ?? "Check the form");
       return;
     }
-
     if (!file) {
       toast.error("Upload your intro video — it's required");
+      return;
+    }
+    if (!tsToken) {
+      toast.error("Please complete the spam check");
       return;
     }
 
@@ -85,15 +140,26 @@ export function ApplicationForm({
         .upload(path, file, { contentType: file.type, upsert: false });
       if (uploadErr) throw uploadErr;
 
-      const { error: insertErr } = await supabase
-        .from("applications")
-        .insert({ ...parsed.data, resume_path: path });
-      if (insertErr) throw insertErr;
+      await submitFn({
+        data: {
+          ...parsed.data,
+          resume_path: path,
+          turnstile_token: tsToken,
+          hp: "",
+        },
+      });
 
+      toast.success("Application received!");
       onSuccess();
     } catch (err) {
       console.error(err);
-      toast.error("Submission failed. Please try again.");
+      const msg = err instanceof Error ? err.message : "Submission failed. Please try again.";
+      toast.error(msg);
+      // Reset turnstile so user can retry
+      if (window.turnstile && tsWidgetId.current) {
+        window.turnstile.reset(tsWidgetId.current);
+        setTsToken("");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -107,6 +173,14 @@ export function ApplicationForm({
       </div>
 
       <p className="text-xs text-muted-foreground">All fields are required.</p>
+
+      {/* Honeypot: hidden from humans, bots will fill it */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+        <label>
+          Website
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
 
       <div className="grid gap-5 md:grid-cols-2">
         <Field label="Full name *" name="full_name" placeholder="Jane Halpert" required />
@@ -199,6 +273,11 @@ export function ApplicationForm({
             </div>
           )}
         </div>
+      </div>
+
+      <div>
+        <Label>Spam check *</Label>
+        <div ref={tsContainerRef} className="mt-2" />
       </div>
 
       <button
