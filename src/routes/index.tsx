@@ -41,9 +41,10 @@ const ROLES: Role[] = [
   {
     id: "creator",
     title: "Content Creator / Brand Executive",
-    shortTitle: "Content Creator",
-    summary: "Create daily reels, posts, stories, product content and on-ground content for multiple brand pages.",
+    shortTitle: "Content Creator (×2)",
+    summary: "Create daily reels, posts, stories, product content and on-ground content for multiple brand pages. We're hiring 2 for this role.",
     bullets: [
+      "2 positions open",
       "Daily reels, posts and stories",
       "Ride trends, product content, on-ground shoots",
       "Manage multiple brand voices",
