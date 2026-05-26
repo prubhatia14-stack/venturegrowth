@@ -41,9 +41,10 @@ const ROLES: Role[] = [
   {
     id: "creator",
     title: "Content Creator / Brand Executive",
-    shortTitle: "Content Creator",
-    summary: "Create daily reels, posts, stories, product content and on-ground content for multiple brand pages.",
+    shortTitle: "Content Creator (×2)",
+    summary: "Create daily reels, posts, stories, product content and on-ground content for multiple brand pages. We're hiring 2 for this role.",
     bullets: [
+      "2 positions open",
       "Daily reels, posts and stories",
       "Ride trends, product content, on-ground shoots",
       "Manage multiple brand voices",
@@ -99,28 +100,29 @@ function CareersPage() {
 
       {/* Header */}
       <header className="border-b border-foreground/10 bg-paper/60 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2 font-display tracking-widest text-sm">
-            <Paperclip className="h-4 w-4" />
-            VENTURE&nbsp;GROWTH&nbsp;LABS
+        <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
+          <div className="flex items-center gap-2 font-display tracking-widest text-[11px] sm:text-sm">
+            <Paperclip className="h-4 w-4 flex-shrink-0" />
+            <span>VENTURE&nbsp;GROWTH&nbsp;LABS</span>
           </div>
-          <div className="font-display text-xs text-muted-foreground tracking-widest">
-            NOIDA · OPEN POSITIONS
+          <div className="font-display text-[10px] sm:text-xs text-muted-foreground tracking-widest">
+            NOIDA · 5 OPEN POSITIONS
           </div>
         </div>
       </header>
 
       {/* Hero */}
       <section className="relative mx-auto max-w-6xl px-6 pt-16 pb-12 md:pt-24 md:pb-20">
-        <div className="grid items-start gap-10 md:grid-cols-[1.4fr_1fr]">
+        <OfficeScene />
+        <div className="relative z-10 grid items-start gap-10 md:grid-cols-[1.4fr_1fr]">
           <div className="paper-rise">
             <p className="font-display text-xs tracking-[0.3em] text-muted-foreground">
-              NOW HIRING · NOIDA · 4 OPEN ROLES
+              NOW HIRING · NOIDA · 5 OPEN ROLES
             </p>
             <h1 className="font-display mt-4 text-4xl leading-tight text-foreground md:text-6xl">
               Build <span className="highlight-text">our own</span> brands.
               <br />
-              Not someone else's.
+              <span className="type-caret">Not someone else's.</span>
             </h1>
             <div className="mt-6 max-w-xl space-y-4 text-base text-muted-foreground md:text-lg">
               <p className="font-display text-sm tracking-widest text-foreground/80 uppercase">
@@ -170,6 +172,9 @@ function CareersPage() {
             <StickyNote className="absolute right-6 top-64 w-56" variant="green">
               Real ownership. No micro-managing. Promise.
             </StickyNote>
+            <div className="clip absolute -right-2 top-[140px] hidden md:block text-foreground/30">
+              <Paperclip className="h-14 w-14" strokeWidth={1.2} />
+            </div>
           </div>
         </div>
       </section>
@@ -245,4 +250,50 @@ function CareersPage() {
     </div>
   );
 }
+
+function OfficeScene() {
+  // Floating paper sheets that drift down the hero like documents falling off a desk.
+  const sheets = [
+    { left: "8%",  delay: "0s",   dur: "14s", rot: "-8deg",  dx: "30px",  tint: "var(--note-yellow)" },
+    { left: "22%", delay: "3s",   dur: "18s", rot: "6deg",   dx: "-20px", tint: "var(--paper)" },
+    { left: "48%", delay: "6s",   dur: "16s", rot: "-4deg",  dx: "40px",  tint: "var(--note-blue)" },
+    { left: "70%", delay: "2s",   dur: "20s", rot: "10deg",  dx: "-30px", tint: "var(--note-pink)" },
+    { left: "88%", delay: "9s",   dur: "15s", rot: "-12deg", dx: "10px",  tint: "var(--note-green)" },
+  ];
+  return (
+    <div className="office-scene" aria-hidden="true">
+      {sheets.map((s, i) => (
+        <div
+          key={i}
+          className="drift"
+          style={{
+            left: s.left,
+            animationDelay: s.delay,
+            animationDuration: s.dur,
+            // @ts-expect-error css vars
+            "--rot": s.rot,
+            "--dx": s.dx,
+          }}
+        >
+          <div
+            style={{
+              width: 44,
+              height: 56,
+              background: s.tint,
+              boxShadow: "1px 2px 0 rgba(60,50,30,0.12), 4px 8px 16px -6px rgba(60,50,30,0.25)",
+              borderRadius: 2,
+              position: "relative",
+            }}
+          >
+            <div style={{ position: "absolute", top: 10, left: 6, right: 6, height: 2, background: "rgba(60,50,30,0.18)" }} />
+            <div style={{ position: "absolute", top: 18, left: 6, right: 10, height: 2, background: "rgba(60,50,30,0.14)" }} />
+            <div style={{ position: "absolute", top: 26, left: 6, right: 14, height: 2, background: "rgba(60,50,30,0.14)" }} />
+            <div style={{ position: "absolute", top: 34, left: 6, right: 8, height: 2, background: "rgba(60,50,30,0.12)" }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 
