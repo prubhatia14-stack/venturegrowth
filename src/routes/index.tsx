@@ -100,28 +100,29 @@ function CareersPage() {
 
       {/* Header */}
       <header className="border-b border-foreground/10 bg-paper/60 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2 font-display tracking-widest text-sm">
-            <Paperclip className="h-4 w-4" />
-            VENTURE&nbsp;GROWTH&nbsp;LABS
+        <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
+          <div className="flex items-center gap-2 font-display tracking-widest text-[11px] sm:text-sm">
+            <Paperclip className="h-4 w-4 flex-shrink-0" />
+            <span>VENTURE&nbsp;GROWTH&nbsp;LABS</span>
           </div>
-          <div className="font-display text-xs text-muted-foreground tracking-widest">
-            NOIDA · OPEN POSITIONS
+          <div className="font-display text-[10px] sm:text-xs text-muted-foreground tracking-widest">
+            NOIDA · 5 OPEN POSITIONS
           </div>
         </div>
       </header>
 
       {/* Hero */}
       <section className="relative mx-auto max-w-6xl px-6 pt-16 pb-12 md:pt-24 md:pb-20">
-        <div className="grid items-start gap-10 md:grid-cols-[1.4fr_1fr]">
+        <OfficeScene />
+        <div className="relative z-10 grid items-start gap-10 md:grid-cols-[1.4fr_1fr]">
           <div className="paper-rise">
             <p className="font-display text-xs tracking-[0.3em] text-muted-foreground">
-              NOW HIRING · NOIDA · 4 OPEN ROLES
+              NOW HIRING · NOIDA · 5 OPEN ROLES
             </p>
             <h1 className="font-display mt-4 text-4xl leading-tight text-foreground md:text-6xl">
               Build <span className="highlight-text">our own</span> brands.
               <br />
-              Not someone else's.
+              <span className="type-caret">Not someone else's.</span>
             </h1>
             <div className="mt-6 max-w-xl space-y-4 text-base text-muted-foreground md:text-lg">
               <p className="font-display text-sm tracking-widest text-foreground/80 uppercase">
@@ -171,6 +172,9 @@ function CareersPage() {
             <StickyNote className="absolute right-6 top-64 w-56" variant="green">
               Real ownership. No micro-managing. Promise.
             </StickyNote>
+            <div className="clip absolute -right-2 top-[140px] hidden md:block text-foreground/30">
+              <Paperclip className="h-14 w-14" strokeWidth={1.2} />
+            </div>
           </div>
         </div>
       </section>
