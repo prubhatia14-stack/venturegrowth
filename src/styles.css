@@ -122,10 +122,10 @@
 }
 
 @keyframes paper-drift {
-  0% { transform: translate(0, -10%) rotate(var(--rot, -8deg)); opacity: 0; }
-  10% { opacity: 0.85; }
-  90% { opacity: 0.85; }
-  100% { transform: translate(var(--dx, 20px), 110%) rotate(calc(var(--rot, -8deg) + 18deg)); opacity: 0; }
+  0% { transform: translate(0, -20%) rotate(var(--rot, -8deg)); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translate(var(--dx, 20px), 120%) rotate(calc(var(--rot, -8deg) + 24deg)); opacity: 0; }
 }
 
 @keyframes clip-spin {
