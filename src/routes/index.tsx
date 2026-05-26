@@ -254,11 +254,13 @@ function CareersPage() {
 function OfficeScene() {
   // Floating paper sheets that drift down the hero like documents falling off a desk.
   const sheets = [
-    { left: "8%",  delay: "0s",   dur: "14s", rot: "-8deg",  dx: "30px",  tint: "var(--note-yellow)" },
-    { left: "22%", delay: "3s",   dur: "18s", rot: "6deg",   dx: "-20px", tint: "var(--paper)" },
-    { left: "48%", delay: "6s",   dur: "16s", rot: "-4deg",  dx: "40px",  tint: "var(--note-blue)" },
-    { left: "70%", delay: "2s",   dur: "20s", rot: "10deg",  dx: "-30px", tint: "var(--note-pink)" },
-    { left: "88%", delay: "9s",   dur: "15s", rot: "-12deg", dx: "10px",  tint: "var(--note-green)" },
+    { left: "4%",  delay: "0s",   dur: "9s",  rot: "-8deg",  dx: "40px",  tint: "var(--note-yellow)" },
+    { left: "18%", delay: "-2s",  dur: "11s", rot: "6deg",   dx: "-30px", tint: "var(--paper)" },
+    { left: "32%", delay: "-5s",  dur: "10s", rot: "-4deg",  dx: "50px",  tint: "var(--note-blue)" },
+    { left: "46%", delay: "-1s",  dur: "12s", rot: "10deg",  dx: "-40px", tint: "var(--note-pink)" },
+    { left: "60%", delay: "-7s",  dur: "9s",  rot: "-12deg", dx: "20px",  tint: "var(--note-green)" },
+    { left: "74%", delay: "-3s",  dur: "11s", rot: "8deg",   dx: "-25px", tint: "var(--note-yellow)" },
+    { left: "88%", delay: "-6s",  dur: "10s", rot: "-6deg",  dx: "15px",  tint: "var(--paper)" },
   ];
   return (
     <div className="office-scene" aria-hidden="true">
