@@ -236,4 +236,32 @@
     background: linear-gradient(180deg, transparent 55%, var(--highlight) 55% 92%, transparent 92%);
     padding: 0 0.2em;
   }
+
+  .type-caret::after {
+    content: "▌";
+    display: inline-block;
+    margin-left: 0.08em;
+    color: var(--foreground);
+    animation: caret-blink 1s steps(1) infinite;
+    font-weight: 400;
+  }
+
+  .office-scene {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .office-scene .drift {
+    position: absolute;
+    top: -10%;
+    animation: paper-drift linear infinite;
+    opacity: 0;
+  }
+  .office-scene .clip {
+    position: absolute;
+    animation: clip-spin 6s ease-in-out infinite;
+  }
+  .stamp-pulse { animation: stamp-pulse 2.4s ease-in-out infinite; }
 }
