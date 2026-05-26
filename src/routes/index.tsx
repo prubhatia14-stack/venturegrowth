@@ -279,18 +279,20 @@ function OfficeScene() {
         >
           <div
             style={{
-              width: 44,
-              height: 56,
+              width: 64,
+              height: 80,
               background: s.tint,
-              boxShadow: "1px 2px 0 rgba(60,50,30,0.12), 4px 8px 16px -6px rgba(60,50,30,0.25)",
-              borderRadius: 2,
+              boxShadow: "1px 2px 0 rgba(60,50,30,0.18), 6px 12px 22px -6px rgba(60,50,30,0.35)",
+              borderRadius: 3,
               position: "relative",
+              border: "1px solid rgba(60,50,30,0.12)",
             }}
           >
-            <div style={{ position: "absolute", top: 10, left: 6, right: 6, height: 2, background: "rgba(60,50,30,0.18)" }} />
-            <div style={{ position: "absolute", top: 18, left: 6, right: 10, height: 2, background: "rgba(60,50,30,0.14)" }} />
-            <div style={{ position: "absolute", top: 26, left: 6, right: 14, height: 2, background: "rgba(60,50,30,0.14)" }} />
-            <div style={{ position: "absolute", top: 34, left: 6, right: 8, height: 2, background: "rgba(60,50,30,0.12)" }} />
+            <div style={{ position: "absolute", top: 14, left: 8, right: 8, height: 2, background: "rgba(60,50,30,0.25)" }} />
+            <div style={{ position: "absolute", top: 24, left: 8, right: 14, height: 2, background: "rgba(60,50,30,0.18)" }} />
+            <div style={{ position: "absolute", top: 34, left: 8, right: 20, height: 2, background: "rgba(60,50,30,0.18)" }} />
+            <div style={{ position: "absolute", top: 44, left: 8, right: 12, height: 2, background: "rgba(60,50,30,0.16)" }} />
+            <div style={{ position: "absolute", top: 54, left: 8, right: 22, height: 2, background: "rgba(60,50,30,0.14)" }} />
           </div>
         </div>
       ))}
