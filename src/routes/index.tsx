@@ -254,11 +254,13 @@ function CareersPage() {
 function OfficeScene() {
   // Floating paper sheets that drift down the hero like documents falling off a desk.
   const sheets = [
-    { left: "8%",  delay: "0s",   dur: "14s", rot: "-8deg",  dx: "30px",  tint: "var(--note-yellow)" },
-    { left: "22%", delay: "3s",   dur: "18s", rot: "6deg",   dx: "-20px", tint: "var(--paper)" },
-    { left: "48%", delay: "6s",   dur: "16s", rot: "-4deg",  dx: "40px",  tint: "var(--note-blue)" },
-    { left: "70%", delay: "2s",   dur: "20s", rot: "10deg",  dx: "-30px", tint: "var(--note-pink)" },
-    { left: "88%", delay: "9s",   dur: "15s", rot: "-12deg", dx: "10px",  tint: "var(--note-green)" },
+    { left: "4%",  delay: "0s",   dur: "9s",  rot: "-8deg",  dx: "40px",  tint: "var(--note-yellow)" },
+    { left: "18%", delay: "-2s",  dur: "11s", rot: "6deg",   dx: "-30px", tint: "var(--paper)" },
+    { left: "32%", delay: "-5s",  dur: "10s", rot: "-4deg",  dx: "50px",  tint: "var(--note-blue)" },
+    { left: "46%", delay: "-1s",  dur: "12s", rot: "10deg",  dx: "-40px", tint: "var(--note-pink)" },
+    { left: "60%", delay: "-7s",  dur: "9s",  rot: "-12deg", dx: "20px",  tint: "var(--note-green)" },
+    { left: "74%", delay: "-3s",  dur: "11s", rot: "8deg",   dx: "-25px", tint: "var(--note-yellow)" },
+    { left: "88%", delay: "-6s",  dur: "10s", rot: "-6deg",  dx: "15px",  tint: "var(--paper)" },
   ];
   return (
     <div className="office-scene" aria-hidden="true">
@@ -277,18 +279,20 @@ function OfficeScene() {
         >
           <div
             style={{
-              width: 44,
-              height: 56,
+              width: 64,
+              height: 80,
               background: s.tint,
-              boxShadow: "1px 2px 0 rgba(60,50,30,0.12), 4px 8px 16px -6px rgba(60,50,30,0.25)",
-              borderRadius: 2,
+              boxShadow: "1px 2px 0 rgba(60,50,30,0.18), 6px 12px 22px -6px rgba(60,50,30,0.35)",
+              borderRadius: 3,
               position: "relative",
+              border: "1px solid rgba(60,50,30,0.12)",
             }}
           >
-            <div style={{ position: "absolute", top: 10, left: 6, right: 6, height: 2, background: "rgba(60,50,30,0.18)" }} />
-            <div style={{ position: "absolute", top: 18, left: 6, right: 10, height: 2, background: "rgba(60,50,30,0.14)" }} />
-            <div style={{ position: "absolute", top: 26, left: 6, right: 14, height: 2, background: "rgba(60,50,30,0.14)" }} />
-            <div style={{ position: "absolute", top: 34, left: 6, right: 8, height: 2, background: "rgba(60,50,30,0.12)" }} />
+            <div style={{ position: "absolute", top: 14, left: 8, right: 8, height: 2, background: "rgba(60,50,30,0.25)" }} />
+            <div style={{ position: "absolute", top: 24, left: 8, right: 14, height: 2, background: "rgba(60,50,30,0.18)" }} />
+            <div style={{ position: "absolute", top: 34, left: 8, right: 20, height: 2, background: "rgba(60,50,30,0.18)" }} />
+            <div style={{ position: "absolute", top: 44, left: 8, right: 12, height: 2, background: "rgba(60,50,30,0.16)" }} />
+            <div style={{ position: "absolute", top: 54, left: 8, right: 22, height: 2, background: "rgba(60,50,30,0.14)" }} />
           </div>
         </div>
       ))}
