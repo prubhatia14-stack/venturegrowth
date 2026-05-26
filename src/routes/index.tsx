@@ -251,3 +251,49 @@ function CareersPage() {
   );
 }
 
+function OfficeScene() {
+  // Floating paper sheets that drift down the hero like documents falling off a desk.
+  const sheets = [
+    { left: "8%",  delay: "0s",   dur: "14s", rot: "-8deg",  dx: "30px",  tint: "var(--note-yellow)" },
+    { left: "22%", delay: "3s",   dur: "18s", rot: "6deg",   dx: "-20px", tint: "var(--paper)" },
+    { left: "48%", delay: "6s",   dur: "16s", rot: "-4deg",  dx: "40px",  tint: "var(--note-blue)" },
+    { left: "70%", delay: "2s",   dur: "20s", rot: "10deg",  dx: "-30px", tint: "var(--note-pink)" },
+    { left: "88%", delay: "9s",   dur: "15s", rot: "-12deg", dx: "10px",  tint: "var(--note-green)" },
+  ];
+  return (
+    <div className="office-scene" aria-hidden="true">
+      {sheets.map((s, i) => (
+        <div
+          key={i}
+          className="drift"
+          style={{
+            left: s.left,
+            animationDelay: s.delay,
+            animationDuration: s.dur,
+            // @ts-expect-error css vars
+            "--rot": s.rot,
+            "--dx": s.dx,
+          }}
+        >
+          <div
+            style={{
+              width: 44,
+              height: 56,
+              background: s.tint,
+              boxShadow: "1px 2px 0 rgba(60,50,30,0.12), 4px 8px 16px -6px rgba(60,50,30,0.25)",
+              borderRadius: 2,
+              position: "relative",
+            }}
+          >
+            <div style={{ position: "absolute", top: 10, left: 6, right: 6, height: 2, background: "rgba(60,50,30,0.18)" }} />
+            <div style={{ position: "absolute", top: 18, left: 6, right: 10, height: 2, background: "rgba(60,50,30,0.14)" }} />
+            <div style={{ position: "absolute", top: 26, left: 6, right: 14, height: 2, background: "rgba(60,50,30,0.14)" }} />
+            <div style={{ position: "absolute", top: 34, left: 6, right: 8, height: 2, background: "rgba(60,50,30,0.12)" }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+
