@@ -27,7 +27,7 @@ const submitSchema = z.object({
   role: z.string().min(1).max(50),
   why_join: z.string().trim().min(10).max(2000),
   resume_path: z.string().min(1).max(500),
-  turnstile_token: z.string().min(1).max(2048),
+  turnstile_token: z.string().max(2048).optional().default(""),
   hp: z.string().max(0).optional().default(""), // honeypot — must be empty
 });
 
