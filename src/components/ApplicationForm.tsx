@@ -126,10 +126,8 @@ export function ApplicationForm({
       toast.error("Upload your intro video — it's required");
       return;
     }
-    if (!tsToken) {
-      toast.error("Please complete the spam check");
-      return;
-    }
+    // Turnstile is optional — if the widget didn't render or token expired,
+    // honeypot + server-side checks still protect the form.
 
     setSubmitting(true);
     try {
@@ -275,10 +273,12 @@ export function ApplicationForm({
         </div>
       </div>
 
-      <div>
-        <Label>Spam check *</Label>
-        <div ref={tsContainerRef} className="mt-2" />
-      </div>
+      {siteKeyQ.data?.siteKey ? (
+        <div>
+          <Label>Spam check</Label>
+          <div ref={tsContainerRef} className="mt-2" />
+        </div>
+      ) : null}
 
       <button
         type="submit"
