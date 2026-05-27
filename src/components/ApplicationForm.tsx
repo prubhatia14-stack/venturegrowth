@@ -273,10 +273,12 @@ export function ApplicationForm({
         </div>
       </div>
 
-      <div>
-        <Label>Spam check *</Label>
-        <div ref={tsContainerRef} className="mt-2" />
-      </div>
+      {siteKeyQ.data?.siteKey ? (
+        <div>
+          <Label>Spam check</Label>
+          <div ref={tsContainerRef} className="mt-2" />
+        </div>
+      ) : null}
 
       <button
         type="submit"
