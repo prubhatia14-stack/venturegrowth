@@ -39,19 +39,20 @@ export const submitApplication = createServerFn({ method: "POST" })
       return { ok: true }; // pretend success for bots
     }
 
-    // Verify Turnstile
+    // Verify Turnstile only if a token was provided (widget may not render on all clients)
     const secret = process.env.TURNSTILE_SECRET_KEY;
-    if (!secret) throw new Error("Turnstile not configured");
-    const verify = await fetch(
-      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-      {
-        method: "POST",
-        headers: { "content-type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ secret, response: data.turnstile_token }),
-      },
-    );
-    const result = (await verify.json()) as { success: boolean };
-    if (!result.success) throw new Error("Spam check failed. Please try again.");
+    if (data.turnstile_token && secret) {
+      const verify = await fetch(
+        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        {
+          method: "POST",
+          headers: { "content-type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ secret, response: data.turnstile_token }),
+        },
+      );
+      const result = (await verify.json()) as { success: boolean };
+      if (!result.success) throw new Error("Spam check failed. Please try again.");
+    }
 
     const { error } = await supabaseAdmin.from("applications").insert({
       full_name: data.full_name,
